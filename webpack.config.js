@@ -2,7 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-	devtool: 'eval-source-map',
+	devtool: "eval-source-map",
 	// Relative path
 	entry: "./src/index.tsx",
 	output: {
@@ -13,10 +13,17 @@ module.exports = {
 	module: {
 		rules: [
 			{
+				test: /\.css$/i,
+				use: [
+					"style-loader",
+					"css-loader"
+				]
+			},
+			{
 				test: /\.(ts|js)x?$/,
 				exclude: /node_modules/,
 				use: {
-					loader: 'babel-loader',
+					loader: "babel-loader",
 					options: {
 						presets: [
 							"@babel/preset-env",
@@ -25,12 +32,26 @@ module.exports = {
 						]
 					}
 				}
+			},
+			{
+				test: /\.svg$/i,
+				use: [
+					{
+						loader: 'babel-loader'
+					},
+					{
+						loader: 'react-svg-loader',
+						options: {
+							jsx: true
+						}
+					}
+				]
 			}
 		]
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: './public/index.html'
+			template: "./public/index.html"
 		})
 	],
 	resolve: {

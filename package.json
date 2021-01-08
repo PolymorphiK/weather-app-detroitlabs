@@ -46,6 +46,7 @@
 		"webpack-dev-server": "^3.11.1"
 	},
 	"dependencies": {
+		"dayjs": "^1.10.2",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1"
 	}

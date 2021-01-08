@@ -63,40 +63,38 @@ export default function Current() {
 	}, []);
 
 	return(
-		<article className="bg-white rounded-lg max-w-3xl mx-auto px-8 py-4 h-96">
-			<div className="flex items-center w-full h-full">
-				<section className="max-w-2xl mx-auto">
-					{
-						// IEFE
-						(() => {
-							// If there is an error, notify the user...
-							if(state.error) return <Message message={state.error.message} />
+		<div className="flex items-center w-full h-full self-center">
+			<section className="max-w-2xl mx-auto">
+				{
+					// IEFE
+					(() => {
+						// If there is an error, notify the user...
+						if(state.error) return <Message message={state.error.message} />
 
-							// We might just be waiting for the payload to arrive
-							// let them know we are loading...
-							if(!state.payload) return <Message message="Loading..." />
+						// We might just be waiting for the payload to arrive
+						// let them know we are loading...
+						if(!state.payload) return <Message message="Loading..." />
 
-							// Display the weather information based on the payload
-							// We will be extracting the first element because the documention
-							// is not clear on when i should iterate, though it does mention
-							// the first element is the one with the highest weight so let's go with that.
-							return (
-								<section className="flex flex-col items-center">
-									<div className="flex items-center">
-										<img src={OpenWeatherMap.icon(state.payload.weather[0], IconSize.Medium)} alt="weather icon"/>
-										<h2 className="text-5xl">{state.payload.main.temp}&deg;F</h2>
-									</div>
-									<label className="block text-center text-2xl tracking-wide">{state.payload.name}</label>
-									<p className="py-2 text-black text-opacity-50">
-										{state.payload.weather[0].description}
-									</p>
-								</section>
-							)
-						})()
-					}
-				</section>
-			</div>
-		</article>
+						// Display the weather information based on the payload
+						// We will be extracting the first element because the documention
+						// is not clear on when i should iterate, though it does mention
+						// the first element is the one with the highest weight so let's go with that.
+						return (
+							<section className="flex flex-col items-center">
+								<div className="flex items-center">
+									<img src={OpenWeatherMap.icon(state.payload.weather[0], IconSize.Medium)} alt="weather icon"/>
+									<h2 className="text-5xl">{state.payload.main.temp}&deg;F</h2>
+								</div>
+								<label className="block text-center text-2xl tracking-wide">{state.payload.name}</label>
+								<p className="py-2 text-black text-opacity-50">
+									{state.payload.weather[0].description}
+								</p>
+							</section>
+						)
+					})()
+				}
+			</section>
+		</div>
 	)
 }
 

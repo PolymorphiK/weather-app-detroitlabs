@@ -7,14 +7,22 @@ export default function Weather() {
 	const tabsState = useTabsState();
 	
 	return (
-		(() => {
-			switch(tabsState.tabID) {
-				case Weather.ContentIDs.Current: return <Current />
-				case Weather.ContentIDs.Forecast: return <Forecast />
+		<div
+			style={{
+				minHeight: "24rem"
+			}}
+			className="bg-white rounded-lg max-w-3xl mx-auto px-8 py-4 flex">
+			{
+				(() => {
+					switch(tabsState.tabID) {
+						case Weather.ContentIDs.Current: return <Current />
+						case Weather.ContentIDs.Forecast: return <Forecast />
+					}
+		
+					return null;
+				})()
 			}
-
-			return null;
-		})()
+		</div>
 	)
 }
 

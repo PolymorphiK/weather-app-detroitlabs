@@ -1,4 +1,5 @@
 import * as React from 'react';
+import dayjs from 'dayjs';
 import OpenWeatherMap, { IForecast, IForecastResult, IResult } from '../../../services/openWeatherMap/OpenWeatherMap';
 
 const owm = new OpenWeatherMap("773c419f4aa7b96427bdebdbc70b20bf");
@@ -59,42 +60,54 @@ export default function Forecast() {
 
 	if(state.error) return <Message message={state.error.message}/>
 
-	if(!state.payload) return <Message message={"Loading..."} />;
-
 	return (
-		<div>
+		<div className="flex flex-col space-y-4 w-full h-full self-center text-white">
 			{
-				subdivide(state.payload.list, 8).map((reports, index) => {
-					return <ForecastDay key={index} reports={reports} />
-				})
+				state.payload ?
+					subdivide(state.payload.list, 8).map((reports, index) => {
+						return <ForecastDay key={index} reports={reports} />
+					})
+				: <Message message={"Loading..."} />
 			}
 		</div>
 	)
 }
 
 const ForecastDay = ({reports} : {reports: Array<IForecast>}) => {
+	const date = dayjs(reports[0].dt_txt);
+
 	return (
-		<div className="bg-white">
-			{
-				reports.map((report, index) => {
-					return <SimpleWeatherDisplay key={index} weather={report} />
-				})
-			}
+		<div className="bg-blue-300 px-4 py-2 rounded-lg shadow-md">
+			<h2 className="text-sm">{`${date.format("MM-DD")}`}</h2>
+			<div className="flex mt-3">
+				{
+					reports.map((report, index) => {
+						return <SimpleWeatherDisplay key={index} weather={report} />
+					})
+				}
+			</div>
 		</div>
 	);
 }
 
 const SimpleWeatherDisplay = ({weather} : {weather: IForecast}) => {
+	const date = dayjs(weather.dt_txt);
+
 	return (
-		<div>
-			{weather.main.feels_like}
+		<div className="flex-grow flex flex-col items-center space-y-2">
+			{weather.main.feels_like}&deg;F
+			<img className="w-8 h-8" src={OpenWeatherMap.icon(weather.weather[0])} alt="null"/>
+			<label className="flex w-full space-x-1">
+				<span>{date.format('hh:mm')}</span>
+				<span>{date.hour() < 12 ? 'AM' : 'PM'}</span>
+			</label>
 		</div>
 	)
 }
 
 const Message = ({message} : {message: string}) => {
 	return (
-		<div>
+		<div className="self-center text-black">
 			{message}
 		</div>
 	)

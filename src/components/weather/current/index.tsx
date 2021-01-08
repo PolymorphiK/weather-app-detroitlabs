@@ -1,5 +1,5 @@
 import * as React from 'react';
-import OpenWeatherMap, { IconSize, ICurrentWeather, IResult }  from '../../../services/OpenWeatherMap';
+import OpenWeatherMap, { IconSize, ICurrentWeather, IResult }  from '../../../services/openWeatherMap/OpenWeatherMap';
 
 // To make it clear, I would never do this I would use a proxy.
 // Given that you might expect this know I know this is terrible
